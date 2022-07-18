@@ -1,0 +1,35 @@
+﻿<Window x:Class="MvvmLightDemo.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MvvmLightDemo"
+        mc:Ignorable="d" FontSize="30" WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <!--从数据库查找相关关键词的数据  C#  数据源  绑定路径-->
+            <TextBox x:Name="tb1" Text="{Binding MainModel.KeyWord}"/>
+            <TextBox x:Name="tb2" Text=""/>
+            <Button Content="搜索" Command="{Binding MainModel.BtnCommand}"
+                    CommandParameter="{Binding ElementName=tb2, Path=Text}"/>
+            <!--ItemsControl 数据模板 TODO -->
+            <ItemsControl Height="300" ItemsSource="{Binding Datas}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding}" Foreground="Orange"/>
+                            <TextBlock Text="{Binding KeyWord}" Foreground="Green"/>
+                            <!--<Button Content="删除" Command="{Binding BtnCommand}" Width="100"/>-->
+                            <!--RelativeSource 相对源  AncestorType 祖先类型-->
+                            <!--ViewModel中的数据属性-->
+                            <Button Command="{Binding DataContext.BtnCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                    CommandParameter="{Binding}" Width="120" Foreground="Green"/>
+                            <!--不要找Border-->
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Grid>
+</Window>
